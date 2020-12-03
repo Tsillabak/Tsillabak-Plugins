@@ -199,7 +199,7 @@ public class RuneMinerPlugin extends Plugin {
 			skillLocation = client.getLocalPlayer().getWorldLocation();
 			beforeLoc = client.getLocalPlayer().getLocalLocation();
 		} else {
-			log.debug("Tried to start bot before being logged in");
+			log.debug("Tried start bot before being logged in");
 			skillLocation = null;
 			resetVals();
 		}
