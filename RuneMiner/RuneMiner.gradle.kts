@@ -23,14 +23,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.0.1"
+version = "1.0.3"
 
 project.extra["PluginName"] = "Tsillabak RuneMiner"
 project.extra["PluginDescription"] = "Automatically Mines  Essence"
 
 dependencies {
 
-    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.3");
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.1+")
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.3")
+
 
     }
 

@@ -81,15 +81,15 @@ subprojects {
         withType<JavaCompile> {
             options.encoding = "UTF-8"
         }
-/*
+
         withType<Jar> {
             doLast {
                 copy {
                     from("./build/libs/")
-                    into("C:/Users/Darwin/.runelite/externalmanager")
+                    into(System.getProperty("user.home") + "/Documents/JavaProjects/My Plugins Jars")
                 }
             }
-        }*/
+        }
 
         withType<AbstractArchiveTask> {
             isPreserveFileTimestamps = false
