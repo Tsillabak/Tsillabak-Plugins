@@ -22,7 +22,7 @@ subprojects {
     group = "com.openosrs.externals"
 
     project.extra["PluginProvider"] = "Tsillabak"
-    project.extra["ProjectSupportUrl"] = ""
+    project.extra["ProjectSupportUrl"] = "supportlink"
     project.extra["PluginLicense"] = "3-Clause BSD License"
 
     repositories {

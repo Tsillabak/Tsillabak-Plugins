@@ -51,7 +51,7 @@ import static net.runelite.client.plugins.iutils.iUtils.iterating;
 @Extension
 @PluginDependency(iUtils.class)
 @PluginDescriptor(
-	name = "Tsillabak RuneMiner",
+	name = "RuneMiner",
 	enabledByDefault = false,
 	description = "Mines rune essence",
 	tags = {"rune, maker, crafting, Tsillabak"},
