@@ -25,7 +25,7 @@
 
 version = "1.0.6"
 
-project.extra["PluginName"] = "Tsillabak RuneMiner"
+project.extra["PluginName"] = "RuneMiner"
 project.extra["PluginDescription"] = "Automatically Mines  Essence"
 
 dependencies {
