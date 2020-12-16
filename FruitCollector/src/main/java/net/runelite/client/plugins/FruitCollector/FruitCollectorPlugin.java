@@ -233,12 +233,13 @@ public class FruitCollectorPlugin extends Plugin {
 	private void stealFruit()
 	{
 
-		targetObject=		object.findNearestGameObjectWithin(FRUITPOINT,40,28823);
+		targetObject=		object.findNearestGameObjectWithin(FRUITPOINT,2,28823);
 
 		if (targetObject != null)
 		{
 			targetMenu = new MenuEntry("Steal-from", "", targetObject.getId(), MenuOpcode.GAME_OBJECT_SECOND_OPTION.getId(),
-					51, 63, false);
+					 targetObject.getSceneMinLocation().getX(),
+					targetObject.getSceneMinLocation().getY(), false);
 			menu.setEntry(targetMenu);
 			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
 		}
