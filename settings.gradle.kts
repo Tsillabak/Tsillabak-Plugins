@@ -25,8 +25,9 @@
 
 rootProject.name = "Tsillabak-Plugins"
 
-include(":RuneMiner")
+include(":EssenceMiner")
 include(":FruitCollector")
+include(":CakeYoinker")
 
 for (project in rootProject.children) {
     project.apply {

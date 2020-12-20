@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.RuneMiner;
+package net.runelite.client.plugins.EssenceMiner;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -22,16 +22,17 @@ import static org.apache.commons.lang3.time.DurationFormatUtils.formatDuration;
 
 @Slf4j
 @Singleton
-class RuneMinerOverlay extends OverlayPanel
+class EssenceMinerOverlay extends OverlayPanel
 {
-	private final RuneMinerPlugin plugin;
-	private final RuneMinerConfiguration config;
+	private final EssenceMinerPlugin plugin;
+	private final EssenceMinerConfiguration config;
 
 	String timeFormat;
 	private String infoStatus = "Starting...";
 
 	@Inject
-	private RuneMinerOverlay(final Client client, final RuneMinerPlugin plugin, final RuneMinerConfiguration config)
+	private
+	EssenceMinerOverlay(final Client client, final EssenceMinerPlugin plugin, final EssenceMinerConfiguration config)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.BOTTOM_LEFT);
@@ -43,7 +44,7 @@ class RuneMinerOverlay extends OverlayPanel
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		if (plugin.botTimer == null || !plugin.startRuneMiner || !config.enableUI())
+		if (plugin.botTimer == null || !plugin.startEssenceMiner || !config.enableUI())
 		{
 			log.debug("Overlay conditions not met, not starting overlay");
 			return null;

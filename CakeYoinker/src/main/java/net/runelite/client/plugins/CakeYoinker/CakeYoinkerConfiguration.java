@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.RuneMiner;
+package net.runelite.client.plugins.CakeYoinker;
 
 import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
@@ -34,8 +34,8 @@ import net.runelite.client.config.ConfigTitleSection;
 import net.runelite.client.config.Range;
 import net.runelite.client.config.Title;
 
-@ConfigGroup("RuneMiner")
-public interface RuneMinerConfiguration extends Config
+@ConfigGroup("CakeYoinker")
+public interface CakeYoinkerConfiguration extends Config
 {
 
 	@ConfigSection(
@@ -232,16 +232,16 @@ public interface RuneMinerConfiguration extends Config
 	)
 	default String instructions()
 	{
-		return "Mines essence at Varrock East Bank.";
+		return "Steals cake from the ardounge safe stall area, then banks. Start with a empty inventory with the ardounge south bank open.";
 	}
 
 	@ConfigTitleSection(
-		keyName = "RuneMinerTitle",
-		name = "Essence Miner Configuration",
+		keyName = "CakeYoinkerTitle",
+		name = "CakeYoinker Configuration",
 		description = "",
 		position = 60
 	)
-	default Title RuneMiner()
+	default Title CakeYoinker()
 	{
 		return new Title();
 	}
@@ -251,7 +251,7 @@ public interface RuneMinerConfiguration extends Config
 		name = "Enable UI",
 		description = "Enable to turn on in game UI",
 		position = 140,
-		titleSection = "RuneMinerTitle"
+		titleSection = "CakeYoinkerTitle"
 	)
 	default boolean enableUI()
 	{

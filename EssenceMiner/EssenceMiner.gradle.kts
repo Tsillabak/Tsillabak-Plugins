@@ -23,9 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.1.0"
+version = "1.0.0"
 
-project.extra["PluginName"] = "RuneMiner"
+project.extra["PluginName"] = "EssenceMiner"
 project.extra["PluginDescription"] = "Automatically Mines  Essence"
 
 dependencies {

@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.RuneMiner;
+package net.runelite.client.plugins.CakeYoinker;
 
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.*;
+import net.runelite.api.TileItem;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.api.MenuEntry;
 import net.runelite.client.plugins.*;
@@ -45,25 +46,25 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.runelite.client.plugins.RuneMiner.RuneMinerState.*;
+import static net.runelite.client.plugins.CakeYoinker.CakeYoinkerState.*;
 import static net.runelite.client.plugins.iutils.iUtils.iterating;
 
 @Extension
 @PluginDependency(iUtils.class)
 @PluginDescriptor(
-	name = "RuneMiner",
+	name = "CakeYoinker",
 	enabledByDefault = false,
-	description = "Mines rune essence",
-	tags = {"rune, maker, crafting, Tsillabak"},
+	description = "Yoinks cakes and shit",
+	tags = {"cakes, shit, yoink, Tsillabak"},
 	type = PluginType.SKILLING
 )
 @Slf4j
-public class RuneMinerPlugin extends Plugin {
+public class CakeYoinkerPlugin extends Plugin {
 	@Inject
 	private Client client;
 
 	@Inject
-	private RuneMinerConfiguration config;
+	private CakeYoinkerConfiguration config;
 
 	@Inject
 	private iUtils utils;
@@ -111,11 +112,12 @@ public class RuneMinerPlugin extends Plugin {
 	OverlayManager overlayManager;
 
 	@Inject
-	private RuneMinerOverlay overlay;
+	private CakeYoinkerOverlay overlay;
 
 
-	RuneMinerState state;
+	CakeYoinkerState state;
 	GameObject targetObject;
+	TileItem groundItem;
 	NPC targetNPC;
 	MenuEntry targetMenu;
 	WorldPoint skillLocation;
@@ -123,24 +125,22 @@ public class RuneMinerPlugin extends Plugin {
 	LocalPoint beforeLoc;
 	Player player;
 
-
-	WorldArea VARROCK = new WorldArea(new WorldPoint(3256, 3250, 0), new WorldPoint(3254, 3420, 0));
-
+	public final WorldPoint DOOR_POINT = new WorldPoint(2668, 3310, 0);
+	public final WorldPoint CAKEPOINT = new WorldPoint(2668, 3310, 0);
+	public static Set<Integer> CAKE = Set.of(ItemID.CAKE);
+	public static Set<Integer> DROP = Set.of(ItemID.CHOCOLATE_SLICE, ItemID.BREAD);
 
 	int timeout = 0;
 	long sleepLength;
-	boolean startRuneMiner;
-	private final Set<Integer> itemIds = new HashSet<>();
+	boolean startCakeYoinker;
 	private final Set<Integer> requiredIds = new HashSet<>();
-	public static Set<Integer> PORTAL = Set.of(NpcID.PORTAL_3088, NpcID.PORTAL_3086);
-	public static Set<Integer> OBJ = Set.of(ObjectID.RUNE_ESSENCE_34773);
-	public static final int V_EAST_BANK = 12853;
-	public static final int ESSENCE_MINE = 11595;
+	public static final int ARDY = 6968;
+	public static final int FRUIT_REGION = 7224;
 	Rectangle clickBounds;
 
 	@Provides
-	RuneMinerConfiguration provideConfig(ConfigManager configManager) {
-		return configManager.getConfig(RuneMinerConfiguration.class);
+	CakeYoinkerConfiguration provideConfig(ConfigManager configManager) {
+		return configManager.getConfig(CakeYoinkerConfiguration.class);
 	}
 
 	private
@@ -150,20 +150,20 @@ public class RuneMinerPlugin extends Plugin {
 		timeout = 0;
 		botTimer = null;
 		skillLocation = null;
-		startRuneMiner = false;
+		startCakeYoinker = false;
 		requiredIds.clear();
 	}
 
 	@Subscribe
 	private
 	void onConfigButtonPressed(ConfigButtonClicked configButtonClicked) {
-		if (!configButtonClicked.getGroup().equalsIgnoreCase("RuneMiner")) {
+		if (!configButtonClicked.getGroup().equalsIgnoreCase("CakeYoinker")) {
 			return;
 		}
 		log.info("button {} pressed!", configButtonClicked.getKey());
 		if (configButtonClicked.getKey().equals("startButton")) {
-			if (!startRuneMiner) {
-				startRuneMiner = true;
+			if (!startCakeYoinker) {
+				startCakeYoinker = true;
 				state = null;
 				targetMenu = null;
 				botTimer = Instant.now();
@@ -181,7 +181,7 @@ public class RuneMinerPlugin extends Plugin {
 		// runs on plugin shutdown
 		overlayManager.remove(overlay);
 		log.info("Plugin stopped");
-		startRuneMiner = false;
+		startCakeYoinker = false;
 	}
 
 	@Subscribe
@@ -190,7 +190,7 @@ public class RuneMinerPlugin extends Plugin {
 		if (!event.getGroup().equals("plankmaker")) {
 			return;
 		}
-		startRuneMiner = false;
+		startCakeYoinker = false;
 	}
 
 	public
@@ -219,8 +219,28 @@ public class RuneMinerPlugin extends Plugin {
 	}
 
 	private
+	void yoinkCake() {
+
+
+		targetObject = object.findNearestGameObjectWithin(CAKEPOINT, 2, 11730);
+
+		if (targetObject != null) {
+			targetMenu = new MenuEntry("Steal-from", "Baker's Stall", targetObject.getId(), MenuOpcode.GAME_OBJECT_SECOND_OPTION.getId(),
+					targetObject.getSceneMinLocation().getX(),
+					targetObject.getSceneMinLocation().getY(), false);
+			menu.setEntry(targetMenu);
+			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
+
+		} else if (targetObject== null){
+			inventory.dropAllExcept(CAKE, true, 1, 1);
+
+		}
+	}
+
+
+	private
 	void openBank() {
-		GameObject bankTarget = object.findNearestGameObject(10583);
+		GameObject bankTarget = object.findNearestGameObject(10355);
 		if (bankTarget != null) {
 			targetMenu = new MenuEntry("", "", bankTarget.getId(),
 					bank.getBankMenuOpcode(bankTarget.getId()), bankTarget.getSceneMinLocation().getX(),
@@ -231,115 +251,31 @@ public class RuneMinerPlugin extends Plugin {
 		}
 	}
 
-	private
-	void teleportMage() {
-		targetNPC = npc.findNearestNpc(2886);
-		if (npc != null) {
-			targetMenu = new MenuEntry("", "",
-					targetNPC.getIndex(), MenuOpcode.NPC_FOURTH_OPTION.getId(), 0, 0, false);
-			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
-		}
-	}
-
-
-	private
-	void mineEssence() {
-		targetObject = object.findNearestGameObject(34773);
-		if (targetObject != null) {
-			targetMenu = new MenuEntry("Mine", "<col=ffff>Essence", targetObject.getId(), 3, targetObject.getSceneMinLocation().getX(), targetObject.getSceneMinLocation().getY(), false);
-			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
-		}
-	}
-
-	private
-	void clickNPCPortal() {
-
-		targetNPC = npc.findNearestNpcWithin(client.getLocalPlayer().getWorldLocation(), 15, PORTAL);
-		if (targetNPC != null) {
-			targetMenu = new MenuEntry("", "",
-					targetNPC.getIndex(), MenuOpcode.NPC_FIRST_OPTION.getId(), 0, 0, false);
-			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
-		} else {
-			targetObject = object.findNearestGameObject(34825, 34779);
-			if (targetObject != null) {
-
-				targetMenu = new MenuEntry("Mine", "<col=ffff>Essence", targetObject.getId(), 3, targetObject.getSceneMinLocation().getX(), targetObject.getSceneMinLocation().getY(), false);
-				menu.setEntry(targetMenu);
-				mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
-			}
-		}
-	}
-
-
-	//if (npc == null) {
-	//targetObject = object.findNearestGameObject(34825, 34779);
-	//targetMenu = new MenuEntry("Mine", "<col=ffff>Essence", targetObject.getId(), 3, targetObject.getSceneMinLocation().getX(), targetObject.getSceneMinLocation().getY(), false);
-	//menu.setEntry(targetMenu);
-	//mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
-
-
-	private
-	void clickPortal() {
-		targetObject = object.findNearestGameObject(34825, 34779);
-		if (targetObject != null) {
-			targetMenu = new MenuEntry("Mine", "<col=ffff>Essence", targetObject.getId(), 3, targetObject.getSceneMinLocation().getX(), targetObject.getSceneMinLocation().getY(), false);
-			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
-		} else {
-			if (targetObject != null) {
-				targetNPC = npc.findNearestNpc(3088, 3086);
-				targetMenu = new MenuEntry("", "",
-						targetNPC.getIndex(), MenuOpcode.NPC_FIRST_OPTION.getId(), 0, 0, false);
-				menu.setEntry(targetMenu);
-				mouse.delayMouseClick(targetNPC.getConvexHull().getBounds(), sleepDelay());
-			}
-		}
-	}
-
-
-
 	public
-	RuneMinerState getState() {
+	CakeYoinkerState getState() {
 
 		if (timeout > 0) {
 			playerUtils.handleRun(20, 30);
 			return TIMEOUT;
-		}
-		if (iterating) {
-			return ITERATING;
+
 		}
 		if (playerUtils.isMoving(beforeLoc)) {
 			playerUtils.handleRun(20, 30);
 			return MOVING;
 		}
-		if (player.getWorldArea().intersectsWith(VARROCK) && !inventory.isFull()) {
-
-			return WALK_TO_MINE;
+		if (inventory.isEmpty() && bank.isOpen()) {
+			return WALK_TO_STALL;
 		}
-
-		if (player.getWorldLocation().equals(new WorldPoint(3253, 3401, 0))) {
-			return CLICK_AUBURY;
+		if (!inventory.isFull()) {
+			return YOINK_CAKES;
 		}
-
-		if (inventory.isEmpty() && client.getLocalPlayer().getWorldLocation().getRegionID() != V_EAST_BANK) {
-			return MINE_ESSENCE;
-		}
-
-		if (inventory.isFull() && client.getLocalPlayer().getWorldLocation().getRegionID() != V_EAST_BANK && (inventory.containsItem(ItemID.PURE_ESSENCE))) {
-			return CLICKING_NPC_PORTAL;
-		}
-		if (inventory.isFull() && !bank.isOpen() && client.getLocalPlayer().getWorldLocation().getRegionID() == V_EAST_BANK && (inventory.containsItem(ItemID.PURE_ESSENCE))) {
+		if (inventory.isFull() && !bank.isOpen()) {
 			return FIND_BANK;
 		}
-		if (inventory.isFull() && bank.isOpen() && client.getLocalPlayer().getWorldLocation().getRegionID() == V_EAST_BANK){
+		if (inventory.isFull() && bank.isOpen()) {
 			return DEPOSIT_ITEMS;
-		}
-		if (inventory.isEmpty() && bank.isOpen()&&client.getLocalPlayer().getWorldLocation().getRegionID() == V_EAST_BANK){
-			return WALK_TO_MINE;
-		}
+
+	}
 		return IDLE;
 	}
 
@@ -347,14 +283,14 @@ public class RuneMinerPlugin extends Plugin {
 	@Subscribe
 	private
 	void onGameTick(GameTick tick) {
-		if (!startRuneMiner) {
+		if (!startCakeYoinker) {
 			return;
 		}
 		player = client.getLocalPlayer();
 		if (client != null && player != null && skillLocation != null) {
 			if (!client.isResized()) {
 				utils.sendGameMessage("Client must be set to resizable");
-				startRuneMiner = false;
+				startCakeYoinker = false;
 				return;
 			}
 			state = getState();
@@ -364,23 +300,13 @@ public class RuneMinerPlugin extends Plugin {
 					playerUtils.handleRun(30, 20);
 					timeout--;
 					break;
-				case WALK_TO_MINE:
-					walk.sceneWalk(new WorldPoint(3253, 3401, 0), 0, 0);
+				case WALK_TO_STALL:
+					walk.sceneWalk(new WorldPoint(2668, 3310, 0),0,0);
 					timeout = tickDelay();
 					break;
-				case CLICK_AUBURY:
-					teleportMage();
+				case YOINK_CAKES:
+					yoinkCake();
 					timeout = tickDelay();
-					break;
-				case MINE_ESSENCE:
-					mineEssence();
-					timeout = tickDelay();
-					break;
-				case CLICKING_PORTAL:
-					clickPortal();
-					break;
-				case CLICKING_NPC_PORTAL:
-					clickNPCPortal();
 					break;
 				case ANIMATING:
 					timeout = 1;

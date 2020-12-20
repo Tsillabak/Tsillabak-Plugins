@@ -1,6 +1,6 @@
-package net.runelite.client.plugins.RuneMiner;
+package net.runelite.client.plugins.EssenceMiner;
 
-public enum RuneMinerState
+public enum EssenceMinerState
 {
 	ANIMATING,
 	MOVING,
