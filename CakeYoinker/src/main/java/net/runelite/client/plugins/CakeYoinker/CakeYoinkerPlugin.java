@@ -246,7 +246,6 @@ public class CakeYoinkerPlugin extends Plugin {
 					bank.getBankMenuOpcode(bankTarget.getId()), bankTarget.getSceneMinLocation().getX(),
 					bankTarget.getSceneMinLocation().getY(), false);
 			menu.setEntry(targetMenu);
-			menu.setEntry(targetMenu);
 			mouse.delayMouseClick(bankTarget.getConvexHull().getBounds(), sleepDelay());
 			utils.sendGameMessage("bank clicked");
 		}
