@@ -266,7 +266,7 @@ public class CakeYoinkerPlugin extends Plugin {
 		if (inventory.isEmpty() && bank.isOpen()) {
 			return WALK_TO_STALL;
 		}
-		if (!inventory.isFull()) {
+		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2668, 3310, 0)))) {
 			return YOINK_CAKES;
 		}
 		if (inventory.isFull() && !bank.isOpen()) {
