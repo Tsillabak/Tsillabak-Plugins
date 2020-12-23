@@ -31,7 +31,7 @@ project.extra["PluginDescription"] = "Automatically Steals Cakes"
 dependencies {
 
 
-    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.3")
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.3+")
 
 
     }
