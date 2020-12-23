@@ -134,8 +134,6 @@ public class CakeYoinkerPlugin extends Plugin {
 	long sleepLength;
 	boolean startCakeYoinker;
 	private final Set<Integer> requiredIds = new HashSet<>();
-	public static final int ARDY = 6968;
-	public static final int FRUIT_REGION = 7224;
 	Rectangle clickBounds;
 
 	@Provides
@@ -222,7 +220,7 @@ public class CakeYoinkerPlugin extends Plugin {
 	void yoinkCake() {
 
 
-		targetObject = object.findNearestGameObjectWithin(CAKEPOINT, 2, 11730);
+		targetObject = object.findNearestGameObjectWithin(CAKEPOINT, 1, 11730);
 
 		if (targetObject != null) {
 			targetMenu = new MenuEntry("Steal-from", "Baker's Stall", targetObject.getId(), MenuOpcode.GAME_OBJECT_SECOND_OPTION.getId(),
@@ -266,7 +264,7 @@ public class CakeYoinkerPlugin extends Plugin {
 		if (inventory.isEmpty() && bank.isOpen()) {
 			return WALK_TO_STALL;
 		}
-		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2668, 3310, 0)))) {
+		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2667, 3310, 0)))) {
 			return YOINK_CAKES;
 		}
 		if (inventory.isFull() && !bank.isOpen()) {
