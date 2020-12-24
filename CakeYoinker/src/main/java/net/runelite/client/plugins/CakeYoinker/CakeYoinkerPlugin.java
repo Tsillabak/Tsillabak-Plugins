@@ -222,7 +222,7 @@ public class CakeYoinkerPlugin extends Plugin {
 
 		targetObject = object.findNearestGameObjectWithin(CAKEPOINT, 1, 11730);
 
-		if (targetObject != null) {
+		if (targetObject != null&&player.getWorldLocation().equals(new WorldPoint(2669, 3310, 0))) {
 			targetMenu = new MenuEntry("Steal-from", "Baker's Stall", targetObject.getId(), MenuOpcode.GAME_OBJECT_SECOND_OPTION.getId(),
 					targetObject.getSceneMinLocation().getX(),
 					targetObject.getSceneMinLocation().getY(), false);
@@ -264,7 +264,7 @@ public class CakeYoinkerPlugin extends Plugin {
 		if (inventory.isEmpty() && bank.isOpen()) {
 			return WALK_TO_STALL;
 		}
-		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2667, 3310, 0)))) {
+		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2669, 3310, 0)))) {
 			return YOINK_CAKES;
 		}
 		if (inventory.isFull() && !bank.isOpen()) {
