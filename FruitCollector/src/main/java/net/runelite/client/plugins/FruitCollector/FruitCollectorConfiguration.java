@@ -234,7 +234,90 @@ public interface FruitCollectorConfiguration extends Config
 	{
 		return "Steals fruit in the hosidious safe stall area, then banks.";
 	}
+	@ConfigTitleSection(
+			keyName = "DropFruitChoice",
+			name = "Drop Fruit",
+			description = "",
+			position = 24
 
+	)
+	@ConfigItem(
+			keyName = "Cooking Apple",
+			name = "Apple",
+			description = "",
+			position = 85,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Apple()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Banana",
+			name = "Banana",
+			description = "",
+			position = 26,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Banana()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Jangerberries",
+			name = "Jangerberries",
+			description = "",
+			position = 27,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Jangerberries()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Lemon",
+			name = "Lemon",
+			description = "",
+			position = 28,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Lemon()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Redberries",
+			name = "Redberries",
+			description = "",
+			position = 29,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Redberries()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Pineapple",
+			name = "Pineapple",
+			description = "",
+			position = 30,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Pineapple()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Lime",
+			name = "Lime",
+			description = "",
+			position = 31,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Lime()
+	{
+		return false;
+	}
 	@ConfigTitleSection(
 		keyName = "FruitCollectorTitle",
 		name = "FruitCollector Configuration",
@@ -245,6 +328,53 @@ public interface FruitCollectorConfiguration extends Config
 	{
 		return new Title();
 	}
+	@ConfigItem(
+			keyName = "Strawberry",
+			name = "Strawberry",
+			description = "",
+			position = 25,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Strawberry()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Strange fruit",
+			name = "Strange fruit",
+			description = "",
+			position = 25,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Strangefruit()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Golovanova fruit top",
+			name = "Golovanova fruit top",
+			description = "",
+			position = 25,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Golovanovafruittop()
+	{
+		return false;
+	}
+	@ConfigItem(
+			keyName = "Papaya fruit",
+			name = "Papaya fruit",
+			description = "",
+			position = 25,
+			titleSection = "DropFruitChoice"
+	)
+	default boolean Papayafruit()
+	{
+		return false;
+	}
+
+
+
 
 	@ConfigItem(
 		keyName = "enableUI",

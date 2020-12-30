@@ -133,6 +133,17 @@ public class FruitCollectorPlugin extends Plugin {
 	long sleepLength;
 	boolean startFruitCollector;
 	private final Set<Integer> requiredIds = new HashSet<>();
+	public static Set<Integer> Cookingapple = Set.of(ItemID.COOKING_APPLE);
+	public static Set<Integer> Banana = Set.of(ItemID.BANANA);
+	public static Set<Integer> JangerBerries = Set.of(ItemID.JANGERBERRIES);
+	public static Set<Integer> Lemon = Set.of(ItemID.LEMON);
+	public static Set<Integer> RedBerries = Set.of(ItemID.REDBERRIES);
+	public static Set<Integer> Pineapple = Set.of(ItemID.PINEAPPLE);
+	public static Set<Integer> Lime = Set.of(ItemID.LIME);
+	public static Set<Integer> Strawberry = Set.of(ItemID.STRAWBERRY);
+	public static Set<Integer> StrangeFruit = Set.of(ItemID.STRANGE_FRUIT);
+	public static Set<Integer> PapayaFruit = Set.of(ItemID.PAPAYA_FRUIT);
+	public static Set<Integer> gfruit = Set.of(ItemID.GOLOVANOVA_FRUIT_TOP);
 	public static final int HOSIDIOUS = 6968;
 	public static final int FRUIT_REGION = 7224;
 	Rectangle clickBounds;
@@ -242,8 +253,31 @@ public class FruitCollectorPlugin extends Plugin {
 					targetObject.getSceneMinLocation().getY(), false);
 			menu.setEntry(targetMenu);
 			mouse.delayMouseClick(targetObject.getConvexHull().getBounds(), sleepDelay());
-		}
+		} else if (targetObject== null) {
+			if (config.Apple())
+				inventory.dropItems(Cookingapple, true, 2, 3);
+			if (config.Banana())
+				inventory.dropItems(Banana, true, 2, 3);
+			if (config.Jangerberries())
+				inventory.dropItems(JangerBerries, true, 2, 3);
+			if (config.Lemon())
+				inventory.dropItems(Lemon, true, 2, 3);
+			if (config.Redberries())
+				inventory.dropItems(RedBerries, true, 2, 3);
+			if (config.Pineapple())
+				inventory.dropItems(Pineapple, true, 2, 3);
+			if (config.Lime())
+				inventory.dropItems(Lime, true, 2, 3);
+			if (config.Strawberry())
+				inventory.dropItems(Strawberry, true, 2, 3);
+			if (config.Strangefruit())
+				inventory.dropItems(StrangeFruit, true, 2, 3);
+			if (config.Papayafruit())
+				inventory.dropItems(PapayaFruit, true, 2, 3);
+			if (config.Golovanovafruittop())
+				inventory.dropItems(gfruit, true, 2, 3);
 
+		}
 	}
 
 	private
