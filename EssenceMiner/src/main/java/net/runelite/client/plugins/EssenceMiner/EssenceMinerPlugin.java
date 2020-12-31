@@ -227,7 +227,7 @@ public class EssenceMinerPlugin extends Plugin {
 	private
 	void teleportMage() {
 		targetNPC = npc.findNearestNpc(2886);
-		if (npc != null) {
+		if (npc != null && !inventory.isFull()) {
 			targetMenu = new MenuEntry("", "",
 					targetNPC.getIndex(), MenuOpcode.NPC_FOURTH_OPTION.getId(), 0, 0, false);
 			menu.setEntry(targetMenu);
