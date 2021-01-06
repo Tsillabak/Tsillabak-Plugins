@@ -5,6 +5,11 @@ import ProjectVersions.openosrsVersion
 buildscript {
     repositories {
         gradlePluginPortal()
+        jcenter()
+    }
+    dependencies {
+        classpath("net.sf.proguard:proguard-gradle:6.2.2")
+
     }
 }
 
@@ -46,6 +51,7 @@ subprojects {
     apply<JavaPlugin>()
 
     dependencies {
+
         annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.12")
         annotationProcessor(group = "org.pf4j", name = "pf4j", version = "3.2.0")
         implementation(group = "ch.qos.logback", name = "logback-classic", version = "1.2.3")
@@ -70,6 +76,7 @@ subprojects {
         compileOnly(Libraries.javax)
         compileOnly(Libraries.lombok)
         compileOnly(Libraries.pf4j)
+
     }
 
     configure<JavaPluginConvention> {
@@ -86,7 +93,7 @@ subprojects {
             doLast {
                 copy {
                     from("./build/libs/")
-                    into(System.getProperty("user.home") + "/Documents/JavaProjects/My Plugins Jars")
+                    into( "C:/Users/Darwin/.runelite/externalmanager")
                 }
             }
         }
