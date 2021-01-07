@@ -237,9 +237,7 @@ public class FruitCollectorPlugin extends Plugin {
 					closedDoor.getLocalLocation().getSceneX(), closedDoor.getLocalLocation().getSceneY(), false);
 			utils.doActionMsTime(targetMenu, closedDoor.getConvexHull().getBounds(), sleepDelay());
 		}
-		else{
-			stealFruit();
-		}
+
 	}
 	private void stealFruit()
 	{
@@ -308,6 +306,12 @@ public class FruitCollectorPlugin extends Plugin {
 		if (inventory.isEmpty() && bank.isOpen()&&client.getLocalPlayer().getWorldLocation().getRegionID() == HOSIDIOUS){
 			return WALK_TO_STALL;
 		}
+		if(inventory.isEmpty()&&  object.findWallObjectWithin(DOOR_POINT, 1, ObjectID.DOOR_7452)!=null&& client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION){
+			return OPEN_DOOR;
+		}
+		if(inventory.isFull()&&  object.findWallObjectWithin(DOOR_POINT, 1, ObjectID.DOOR_7452)!=null&& client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION){
+			return OPEN_DOOR;
+		}
 		if (!inventory.isFull() &&client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION) {
 			return STEAL_FRUIT;
 		}
@@ -353,6 +357,10 @@ public class FruitCollectorPlugin extends Plugin {
 					timeout = tickDelay();
 					break;
 				case STEAL_FRUIT:
+					stealFruit();
+					timeout = tickDelay();
+					break;
+				case OPEN_DOOR:
 					openDoor();
 					timeout = tickDelay();
 					break;

@@ -9,6 +9,7 @@ public enum FruitCollectorState
 	DEPOSIT_ITEMS,
 	WALK_TO_STALL,
 	STEAL_FRUIT,
+	OPEN_DOOR,
 	WALK_TO_BANK,
 	IDLE
 }
