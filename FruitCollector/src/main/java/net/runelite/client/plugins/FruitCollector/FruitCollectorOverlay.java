@@ -74,7 +74,7 @@ class FruitCollectorOverlay extends OverlayPanel
 			panelComponent.setPreferredSize(new Dimension(200, 200));
 			panelComponent.setBorder(new Rectangle(5, 5, 5, 5));
 			panelComponent.getChildren().add(TitleComponent.builder()
-				.text("Tsillabak Fruit Collector")
+				.text("No-Name Fruit Collector")
 				.color(ColorUtil.fromHex("8E4ACA"))
 				.build());
 			panelComponent.getChildren().add(tableComponent);

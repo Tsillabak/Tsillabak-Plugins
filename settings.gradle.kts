@@ -23,11 +23,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "Tsillabak-Plugins"
+rootProject.name = "No-Name-Plugins"
 
 include(":EssenceMiner")
 include(":FruitCollector")
 include(":CakeYoinker")
+include(":ChaosAltar")
+include(":AstralAltar")
 
 
 for (project in rootProject.children) {
