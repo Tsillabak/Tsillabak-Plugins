@@ -55,7 +55,7 @@ import static net.runelite.client.plugins.iutils.iUtils.iterating;
 	name = "FruitCollector",
 	enabledByDefault = false,
 	description = "Mines rune essence",
-	tags = {"rune, maker, crafting, No-Name"},
+	tags = {"rune, maker, crafting, Tsillabak"},
 	type = PluginType.SKILLING
 )
 @Slf4j

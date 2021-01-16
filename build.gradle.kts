@@ -18,7 +18,7 @@ plugins {
     checkstyle
 }
 
-project.extra["GithubUrl"] = "https://github.com/No-Name/No-Name-Plugins"
+project.extra["GithubUrl"] = "https://github.com/Tsillabak/Tsillabak-Plugins"
 
 apply<BootstrapPlugin>()
 
@@ -27,7 +27,7 @@ subprojects {
     //group = "com.example"
     group = "com.openosrs.externals"
 
-    project.extra["PluginProvider"] = "No-Name"
+    project.extra["PluginProvider"] = "Tsillabak"
     project.extra["ProjectSupportUrl"] = "supportlink"
     project.extra["PluginLicense"] = "3-Clause BSD License"
 

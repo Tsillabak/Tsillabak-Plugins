@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "No-Name-Plugins"
+rootProject.name = "Tsillabak-Plugins"
 
 include(":EssenceMiner")
 include(":FruitCollector")

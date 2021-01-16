@@ -75,7 +75,7 @@ class EssenceMinerOverlay extends OverlayPanel
 			panelComponent.setPreferredSize(new Dimension(200, 200));
 			panelComponent.setBorder(new Rectangle(5, 5, 5, 5));
 			panelComponent.getChildren().add(TitleComponent.builder()
-				.text("No-Name Essence Miner")
+				.text("Tsillabak Essence Miner")
 				.color(ColorUtil.fromHex("#ffbf00"))
 				.build());
 			panelComponent.getChildren().add(tableComponent);
