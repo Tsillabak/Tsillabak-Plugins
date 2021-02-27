@@ -25,8 +25,8 @@
 
 version = "2.0.0"
 
-project.extra["PluginName"] = "CakeYoinker"
-project.extra["PluginDescription"] = "Automatically Steals Cakes"
+project.extra["PluginName"] = "EssenceMiner"
+project.extra["PluginDescription"] = "Automatically Mines  Essence"
 
 dependencies {
 
@@ -37,21 +37,19 @@ dependencies {
     }
 
 
-
 tasks {
     jar {
         manifest {
             attributes(mapOf(
-                "Plugin-Version" to project.version,
-                "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-                "Plugin-Provider" to project.extra["PluginProvider"],
-                "Plugin-Dependencies" to
-                        arrayOf(
-                            nameToId("iUtils"),
-                            "chinbreakhandler-plugin"
-                        ).joinToString(),
-                "Plugin-Description" to project.extra["PluginDescription"],
-                "Plugin-License" to project.extra["PluginLicense"]
+                    "Plugin-Version" to project.version,
+                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
+                    "Plugin-Provider" to project.extra["PluginProvider"],
+                    "Plugin-Dependencies" to
+                            arrayOf(
+                                    nameToId("iUtils")
+                            ).joinToString(),
+                    "Plugin-Description" to project.extra["PluginDescription"],
+                    "Plugin-License" to project.extra["PluginLicense"]
             ))
         }
     }

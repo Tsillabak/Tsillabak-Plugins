@@ -25,8 +25,8 @@
 
 version = "2.0.0"
 
-project.extra["PluginName"] = "CakeYoinker"
-project.extra["PluginDescription"] = "Automatically Steals Cakes"
+project.extra["PluginName"] = "FruitCollector"
+project.extra["PluginDescription"] = "Automatically Steals Fruit"
 
 dependencies {
 
@@ -35,7 +35,6 @@ dependencies {
 
 
     }
-
 
 
 tasks {
