@@ -29,7 +29,6 @@ include(":EssenceMiner")
 include(":FruitCollector")
 include(":CakeYoinker")
 
-
 for (project in rootProject.children) {
     project.apply {
         projectDir = file(name)

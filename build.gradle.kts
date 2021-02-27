@@ -5,11 +5,6 @@ import ProjectVersions.openosrsVersion
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
-    }
-    dependencies {
-        classpath("net.sf.proguard:proguard-gradle:6.2.2")
-
     }
 }
 
@@ -21,6 +16,21 @@ plugins {
 project.extra["GithubUrl"] = "https://github.com/Tsillabak/Tsillabak-Plugins"
 
 apply<BootstrapPlugin>()
+
+allprojects {
+    group = "com.openosrs.externals"
+    apply<MavenPublishPlugin>()
+}
+
+allprojects {
+    apply<MavenPublishPlugin>()
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+}
 
 subprojects {
     //group = "com.example"
@@ -51,18 +61,16 @@ subprojects {
     apply<JavaPlugin>()
 
     dependencies {
-
         annotationProcessor(group = "org.projectlombok", name = "lombok", version = "1.18.12")
-        annotationProcessor(group = "org.pf4j", name = "pf4j", version = "3.2.0")
+        annotationProcessor(group = "org.pf4j", name = "pf4j", version = "3.4.1")
         implementation(group = "ch.qos.logback", name = "logback-classic", version = "1.2.3")
         implementation(group = "com.google.code.gson", name = "gson", version = "2.8.6")
-        implementation(group = "com.google.guava", name = "guava", version = "28.2-jre")
+        implementation(group = "com.google.guava", name = "guava", version = "29.0-jre")
         implementation(group = "com.google.inject", name = "guice", version = "4.2.3", classifier = "no_aop")
-        implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.5.0")
-        implementation(group = "io.reactivex.rxjava3", name = "rxjava", version = "3.0.2")
+        implementation(group = "com.squareup.okhttp3", name = "okhttp", version = "4.9.0")
         implementation(group = "net.sf.jopt-simple", name = "jopt-simple", version = "5.0.4")
-        implementation(group = "org.apache.commons", name = "commons-text", version = "1.8")
-        implementation(group = "org.pf4j", name = "pf4j", version = "3.2.0")
+        implementation(group = "org.apache.commons", name = "commons-text", version = "1.9")
+        implementation(group = "org.pf4j", name = "pf4j", version = "3.4.1")
         implementation(group = "org.projectlombok", name = "lombok", version = "1.18.12")
         implementation(group = "org.pushing-pixels", name = "radiance-substance", version = "2.5.1")
 
@@ -71,12 +79,10 @@ subprojects {
         compileOnly("com.openosrs:runelite-client:$openosrsVersion+")
         compileOnly("com.openosrs:http-api:$openosrsVersion+")
 
-
         compileOnly(Libraries.guice)
         compileOnly(Libraries.javax)
         compileOnly(Libraries.lombok)
         compileOnly(Libraries.pf4j)
-
     }
 
     configure<JavaPluginConvention> {
@@ -84,16 +90,34 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    configure<PublishingExtension> {
+        repositories {
+            maven {
+                url = uri("$buildDir/repo")
+            }
+        }
+        publications {
+            register("mavenJava", MavenPublication::class) {
+                from(components["java"])
+            }
+        }
+    }
+
     tasks {
         withType<JavaCompile> {
             options.encoding = "UTF-8"
+        }
+
+        register<Copy>("copyDeps") {
+            into("./build/deps/")
+            from(configurations["runtimeClasspath"])
         }
 
         withType<Jar> {
             doLast {
                 copy {
                     from("./build/libs/")
-                    into( "C:/Users/Darwin/.runelite/externalmanager")
+                    into( "C:/Users/Darwin/.openOSRS/plugins")
                 }
             }
         }
