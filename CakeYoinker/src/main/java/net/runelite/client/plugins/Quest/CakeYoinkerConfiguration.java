@@ -23,31 +23,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.EssenceMiner;
+package net.runelite.client.plugins.Quest;
 
-import net.runelite.client.config.Button;
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.ConfigSection;
-import net.runelite.client.config.ConfigTitleSection;
-import net.runelite.client.config.Range;
-import net.runelite.client.config.Title;
+import net.runelite.client.config.*;
 
-@ConfigGroup("EssenceMiner")
-public interface EssenceMinerConfiguration extends Config
+
+@ConfigGroup("Quest")
+public interface CakeYoinkerConfiguration extends Config
 {
 
-	@ConfigSection(
+	@ConfigTitle(
 		keyName = "delayConfig",
 		name = "Sleep Delay Configuration",
 		description = "Configure how the bot handles sleep delays",
 		position = 2
 	)
-	default boolean delayConfig()
-	{
-		return false;
-	}
+	String delayConfig = "delayConfig";
+
 
 	@Range(
 		min = 0,
@@ -125,16 +117,14 @@ public interface EssenceMinerConfiguration extends Config
 		return false;
 	}
 
-	@ConfigSection(
+	@ConfigTitle(
 		keyName = "delayTickConfig",
 		name = "Game Tick Configuration",
 		description = "Configure how the bot handles game tick delays, 1 game tick equates to roughly 600ms",
 		position = 8
 	)
-	default boolean delayTickConfig()
-	{
-		return false;
-	}
+	String delayTickConfig = "delayTickConfig";
+
 
 	@Range(
 		min = 0,
@@ -212,46 +202,41 @@ public interface EssenceMinerConfiguration extends Config
 		return false;
 	}
 
-	@ConfigTitleSection(
+	@ConfigTitle(
 		keyName = "instructionsTitle",
 		name = "Instructions",
 		description = "",
 		position = 16
 	)
-	default Title instructionsTitle()
-	{
-		return new Title();
-	}
+	String instructionsTitle = "instructionsTitle";
+
 
 	@ConfigItem(
 		keyName = "instructions",
 		name = "",
 		description = "Instructions. Don't enter anything into this field",
 		position = 20,
-		titleSection = "instructionsTitle"
+		title = "instructionsTitle"
 	)
 	default String instructions()
 	{
-		return "Mines essence at Varrock East Bank.";
+		return "Steals cake from the ardounge safe stall area, then banks. Start with a empty inventory with the ardounge south bank open.";
 	}
 
-	@ConfigTitleSection(
-		keyName = "EssenceMinerTitle",
-		name = "Essence Miner Configuration",
+	@ConfigTitle(
+		keyName = "CakeYoinkerTitle",
+		name = "Quest Configuration",
 		description = "",
 		position = 60
 	)
-	default Title EssenceMiner()
-	{
-		return new Title();
-	}
+	String CakeYoinker = "Quest";
 
 	@ConfigItem(
 		keyName = "enableUI",
 		name = "Enable UI",
 		description = "Enable to turn on in game UI",
 		position = 140,
-		titleSection = "EssenceMinerTitle"
+		title = "CakeYoinkerTitle"
 	)
 	default boolean enableUI()
 	{

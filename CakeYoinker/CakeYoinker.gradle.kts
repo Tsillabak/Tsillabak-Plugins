@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "2.0.4"
+version = "2.0.5"
 
 project.extra["PluginName"] = "CakeYoinker"
 project.extra["PluginDescription"] = "Automatically Steals Cakes"
@@ -31,7 +31,7 @@ project.extra["PluginDescription"] = "Automatically Steals Cakes"
 dependencies {
 
 
-    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.6+")
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "+")
 
 
     }

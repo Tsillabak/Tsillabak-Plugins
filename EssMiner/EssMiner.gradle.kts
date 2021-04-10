@@ -23,34 +23,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "2.0.5"
+version = "2.1.0"
 
-project.extra["PluginName"] = "FruitCollector"
-project.extra["PluginDescription"] = "Automatically Steals Fruit"
+project.extra["PluginName"] = "EssMiner"
+project.extra["PluginDescription"] = "Tsillabak - EssMiner plugin"
 
 dependencies {
-
-
-    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "+")
-
-
-    }
-
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "3.0.0+") //uncomment this is you want to use this in a project that doesn't also hold iUtils
+    //compileOnly(project(":iutils"))
+    compileOnly(group = "com.owain.externals", name = "chinbreakhandler", version = "+")
+}
 
 tasks {
     jar {
         manifest {
             attributes(mapOf(
-                "Plugin-Version" to project.version,
-                "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
-                "Plugin-Provider" to project.extra["PluginProvider"],
-                "Plugin-Dependencies" to
-                        arrayOf(
-                            nameToId("iUtils"),
-                            "chinbreakhandler-plugin"
-                        ).joinToString(),
-                "Plugin-Description" to project.extra["PluginDescription"],
-                "Plugin-License" to project.extra["PluginLicense"]
+                    "Plugin-Version" to project.version,
+                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
+                    "Plugin-Provider" to project.extra["PluginProvider"],
+                    "Plugin-Dependencies" to
+                            arrayOf(
+                                    nameToId("iUtils"),
+                                    "chinbreakhandler-plugin"
+                            ).joinToString(),
+                    "Plugin-Description" to project.extra["PluginDescription"],
+                    "Plugin-License" to project.extra["PluginLicense"]
             ))
         }
     }

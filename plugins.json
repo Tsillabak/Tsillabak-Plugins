@@ -1,1 +1,32 @@
-[{"projectUrl":"https://discord.gg/9fGzEDR","provider":"Tsillabak","name":"CakeYoinker","description":"Automatically Steals Cakes","id":"cakeyoinker-plugin","releases":[{"date":"2021-03-05","sha512sum":"ED4ED307DD22162D04C1B6F93CFD6E635222E6D1A96896CD44B6620E693FD29C9E18107DDCFB5E85FE9A3D884E294521655E91851C9346F03C7ECD49369949E9","version":"2.0.4","url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/CakeYoinker-2.0.4.jar?raw=true","requires":"^1.0.0"}]}, {"projectUrl":"https://discord.gg/9fGzEDR","provider":"Tsillabak","name":"EssenceMiner","description":"Automatically Mines  Essence","id":"essenceminer-plugin","releases":[{"date":"2021-03-05","sha512sum":"F377F7A14A57A2ECB0B7489C288C45551D620643E1F4A388AAE5E5DD684680E5D9346898FD4AE21600BD460100BBDD7778CA50E8D7D9ACA945F18B85C21FCE61","version":"2.0.4","url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/EssenceMiner-2.0.4.jar?raw=true","requires":"^1.0.0"}]}, {"projectUrl":"https://discord.gg/9fGzEDR","provider":"Tsillabak","name":"FruitCollector","description":"Automatically Steals Fruit","id":"fruitcollector-plugin","releases":[{"date":"2021-03-05","sha512sum":"CD4D872DDCB2E811F0F1D4EA7A5A34998D35E47A4E0BF19D3EA83CA6C040E73B55B4D21B6AF039745CFB64D0095253E977D90C3E06B033F0916297E42C44D09C","version":"2.0.4","url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/FruitCollector-2.0.4.jar?raw=true","requires":"^1.0.0"}]}]
+[{"projectUrl":"https://discord.gg/9fGzEDR",
+  "provider":"Tsillabak",
+  "name":"CakeYoinker",
+  "description":"Automatically Steals Cakes",
+  "id":"quest-plugin",
+  "releases":[{
+    "date":"2021-04-10",
+    "sha512sum":"7E87D04C6B0EDF3B408CCADCFBD54A8F324EFD7647AD8CAED6F02372C84DE78644273192C2115A967F3660F79ABF2A952356CFA4FE6106C842A8C93CCCD6C398",
+    "version":"2.0.5",
+    "url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/CakeYoinker-2.0.5.jar?raw=true",
+    "requires":"^1.0.0"}]}, {
+  "projectUrl":"https://discord.gg/9fGzEDR",
+  "provider":"Tsillabak",
+  "name":"essenceminer",
+  "description":"Automatically Mines  Essence",
+  "id":"essenceminer-plugin",
+  "releases":[{
+    "date":"2021-04-10",
+    "sha512sum":"22DE23DF57EF575C181D534A8C3859E173566A8361F0E813E8F5CB6E8DEB4EA201C3D6ED7233E615754B63F2235005FAC8B07E833CB8F9217332C01EE97A6FCE",
+    "version":"2.0.5",
+    "url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/essenceminer-2.0.5.jar?raw=true",
+    "requires":"^1.0.0"}]}, {
+  "projectUrl":"https://discord.gg/9fGzEDR",
+  "provider":"Tsillabak",
+  "name":"FruitCollector",
+  "description":"Automatically Steals Fruit",
+  "id":"fruitcollector-plugin",
+  "releases":[{
+    "date":"2021-04-10",
+    "sha512sum":"AB4543020B7D439F517DA1514E4D5443D6AAE6035DABC879A6F70EFBA1C9B07F1B636619A71EE4C85D464862761BBCD6CCECC330B99A0072DAF6722CB1BE6D01",
+    "version":"2.0.5","url":"https://github.com/Tsillabak/Tsillabak-Plugins/blob/master/release/FruitCollector-2.0.5.jar?raw=true",
+    "requires":"^1.0.0"}]}]

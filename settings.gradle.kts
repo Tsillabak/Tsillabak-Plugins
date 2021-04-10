@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
+        mavenCentral()
+        maven("https://plugins.gradle.org/m2/")
+    }
+}
 /*
  * Copyright (c) 2019 Owain van Brakel <https:github.com/Owain94>
  * All rights reserved.
@@ -25,7 +32,7 @@
 
 rootProject.name = "Tsillabak-Plugins"
 
-include(":EssenceMiner")
+include(":essenceminer")
 include(":FruitCollector")
 include(":CakeYoinker")
 

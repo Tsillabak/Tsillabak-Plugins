@@ -23,18 +23,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "2.0.4"
+version = "2.0.5"
 
-project.extra["PluginName"] = "EssenceMiner"
+project.extra["PluginName"] = "essenceminer"
 project.extra["PluginDescription"] = "Automatically Mines  Essence"
+
 
 dependencies {
 
 
-    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "2.3.6+")
+    compileOnly(group = "com.openosrs.externals", name = "iutils", version = "+")
 
 
-    }
+}
 
 
 tasks {
