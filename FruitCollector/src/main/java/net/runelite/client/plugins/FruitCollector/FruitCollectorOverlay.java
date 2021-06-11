@@ -31,13 +31,13 @@ class FruitCollectorOverlay extends OverlayPanel
 	private String infoStatus = "Starting...";
 
 	@Inject
-	private FruitCollectorOverlay(final Client client, final FruitCollectorPlugin plugin, final FruitCollectorConfiguration config)
+	public FruitCollectorOverlay(final Client client, final FruitCollectorPlugin plugin, final FruitCollectorConfiguration config)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.BOTTOM_LEFT);
 		this.plugin = plugin;
 		this.config = config;
-		getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "rune Maker overlay"));
+		getMenuEntries().add(new OverlayMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "FruitCollectorOverlay"));
 	}
 
 	@Override
@@ -45,7 +45,7 @@ class FruitCollectorOverlay extends OverlayPanel
 	{
 		if (plugin.botTimer == null || !plugin.startFruitCollector || !config.enableUI())
 		{
-			log.debug("Overlay conditions not met, not starting overlay");
+			//log.debug("Overlay conditions not met, not starting overlay");
 			return null;
 		}
 		TableComponent tableComponent = new TableComponent();

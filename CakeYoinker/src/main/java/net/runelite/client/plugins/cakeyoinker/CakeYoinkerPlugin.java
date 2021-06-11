@@ -1,99 +1,84 @@
-package net.runelite.client.plugins.Quest;
+package net.runelite.client.plugins.cakeyoinker;
 
 import com.google.inject.Provides;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.coords.LocalPoint;
+import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.plugins.*;
-import net.runelite.api.TileItem;
 import net.runelite.client.plugins.Plugin;
-import net.runelite.api.MenuEntry;
-import net.runelite.client.plugins.iutils.BankUtils;
-import net.runelite.client.plugins.iutils.CalculationUtils;
-import net.runelite.client.plugins.iutils.InterfaceUtils;
-import net.runelite.client.plugins.iutils.InventoryUtils;
-import net.runelite.client.plugins.iutils.MenuUtils;
-import net.runelite.client.plugins.iutils.MouseUtils;
-import net.runelite.client.plugins.iutils.NPCUtils;
-import net.runelite.client.plugins.iutils.ObjectUtils;
-import net.runelite.client.plugins.iutils.PlayerUtils;
-import net.runelite.client.plugins.iutils.WalkUtils;
-import net.runelite.client.plugins.iutils.KeyboardUtils;
-import net.runelite.client.plugins.iutils.iUtils;
-
-
-
+import net.runelite.client.plugins.PluginDependency;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginManager;
+import net.runelite.client.plugins.iutils.*;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import java.awt.*;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Set;
 
-import static net.runelite.client.plugins.Quest.CakeYoinkerState.*;
+import static net.runelite.client.plugins.cakeyoinker.CakeYoinkerState.*;
 
 @Extension
 @PluginDependency(iUtils.class)
 @PluginDescriptor(
-	name = "Quest",
+	name = "CakeYoinker",
 	enabledByDefault = false,
 	description = "Yoinks cakes and shit",
 	tags = {"cakes, shit, yoink, Tsillabak"}
 )
-@Slf4j
 public class CakeYoinkerPlugin extends Plugin {
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(CakeYoinkerPlugin.class);
 	@Inject
-	private Client client;
+	public Client client;
 
 	@Inject
-	private CakeYoinkerConfiguration config;
+	public CakeYoinkerConfiguration config;
 
 	@Inject
-	private iUtils utils;
+	public	 iUtils utils;
 
 	@Inject
-	private MouseUtils mouse;
+	public MouseUtils mouse;
 
 	@Inject
-	private PlayerUtils playerUtils;
+	public PlayerUtils playerUtils;
 
 	@Inject
-	private InventoryUtils inventory;
+	public InventoryUtils inventory;
 
 	@Inject
-	private InterfaceUtils interfaceUtils;
+	public InterfaceUtils interfaceUtils;
 
 	@Inject
-	private CalculationUtils calc;
+	public CalculationUtils calc;
 
 	@Inject
-	private MenuUtils menu;
+	public MenuUtils menu;
 
 	@Inject
-	private ObjectUtils object;
+	public ObjectUtils object;
 
 	@Inject
-	private BankUtils bank;
+	public BankUtils bank;
 
 	@Inject
-	private NPCUtils npc;
+	 public  NPCUtils npc;
 
 	@Inject
-	private KeyboardUtils key;
+	public KeyboardUtils key;
 
 	@Inject
-	private WalkUtils walk;
+	public WalkUtils walk;
 
 	@Inject
-	private ConfigManager configManager;
+	public ConfigManager configManager;
 
 	@Inject
 	PluginManager pluginManager;
@@ -102,29 +87,28 @@ public class CakeYoinkerPlugin extends Plugin {
 	OverlayManager overlayManager;
 
 	@Inject
-	private CakeYoinkerOverlay overlay;
+	public CakeYoinkerOverlay overlay;
 
 
 	CakeYoinkerState state;
 	GameObject targetObject;
-	TileItem groundItem;
-	NPC targetNPC;
 	MenuEntry targetMenu;
 	WorldPoint skillLocation;
 	Instant botTimer;
 	LocalPoint beforeLoc;
 	Player player;
 
-	public final WorldPoint DOOR_POINT = new WorldPoint(2668, 3310, 0);
-	public final WorldPoint CAKEPOINT = new WorldPoint(2668, 3310, 0);
+	public final WorldPoint CAKEPOINT = new WorldPoint(2669, 3310, 0);
+	public final WorldArea BANKAREA = new WorldArea(new WorldPoint(2659, 3288,0),
+													new WorldPoint(  2649, 3278,0));
 	public static Set<Integer> CAKE = Set.of(ItemID.CAKE);
-	public static Set<Integer> DROP = Set.of(ItemID.CHOCOLATE_SLICE, ItemID.BREAD);
 
 	int timeout = 0;
 	long sleepLength;
 	boolean startCakeYoinker;
-	private final Set<Integer> requiredIds = new HashSet<>();
-	Rectangle clickBounds;
+
+	public CakeYoinkerPlugin() {
+	}
 
 	@Provides
 	CakeYoinkerConfiguration provideConfig(ConfigManager configManager) {
@@ -139,13 +123,12 @@ public class CakeYoinkerPlugin extends Plugin {
 		botTimer = null;
 		skillLocation = null;
 		startCakeYoinker = false;
-		requiredIds.clear();
 	}
 
 	@Subscribe
 	private
 	void onConfigButtonPressed(ConfigButtonClicked configButtonClicked) {
-		if (!configButtonClicked.getGroup().equalsIgnoreCase("Quest")) {
+		if (!configButtonClicked.getGroup().equalsIgnoreCase("cakeyoinker")) {
 			return;
 		}
 		log.info("button {} pressed!", configButtonClicked.getKey());
@@ -175,7 +158,7 @@ public class CakeYoinkerPlugin extends Plugin {
 	@Subscribe
 	private
 	void onConfigChanged(ConfigChanged event) {
-		if (!event.getGroup().equals("plankmaker")) {
+		if (!event.getGroup().equals("CakeYoinker")) {
 			return;
 		}
 		startCakeYoinker = false;
@@ -195,25 +178,35 @@ public class CakeYoinkerPlugin extends Plugin {
 
 	private
 	long sleepDelay() {
-		sleepLength = calc.randomDelay(config.sleepWeightedDistribution(), config.sleepMin(), config.sleepMax(), config.sleepDeviation(), config.sleepTarget());
+		sleepLength = calc.randomDelay(config.sleepWeightedDistribution(),
+										config.sleepMin(),
+										config.sleepMax(),
+										config.sleepDeviation(),
+										config.sleepTarget());
 		return sleepLength;
 	}
 
 	private
 	int tickDelay() {
-		int tickLength = (int) calc.randomDelay(config.tickDelayWeightedDistribution(), config.tickDelayMin(), config.tickDelayMax(), config.tickDelayDeviation(), config.tickDelayTarget());
+		int tickLength = (int) calc.randomDelay(config.tickDelayWeightedDistribution(),
+												config.tickDelayMin(),
+												config.tickDelayMax(),
+												config.tickDelayDeviation(),
+												config.tickDelayTarget());
 		log.debug("tick delay for {} ticks", tickLength);
 		return tickLength;
 	}
 
 	private
 	void yoinkCake() {
-
-
-		targetObject = object.findNearestGameObjectWithin(CAKEPOINT, 1, 11730);
-
-		if (targetObject != null&&player.getWorldLocation().equals(new WorldPoint(2669, 3310, 0))) {
-			targetMenu = new MenuEntry("Steal-from", "Baker's Stall", targetObject.getId(), MenuAction.GAME_OBJECT_SECOND_OPTION.getId(),
+		targetObject = object.findNearestGameObjectWithin(
+				new WorldPoint(2668, 3310, 0), 1, 11730);
+		if (targetObject != null&&player.getWorldLocation().equals(
+				new WorldPoint(2669, 3310, 0))) {
+			targetMenu = new MenuEntry("Steal-from",
+										"Baker's Stall",
+										targetObject.getId(),
+										MenuAction.GAME_OBJECT_SECOND_OPTION.getId(),
 					targetObject.getSceneMinLocation().getX(),
 					targetObject.getSceneMinLocation().getY(), false);
 			menu.setEntry(targetMenu);
@@ -221,23 +214,26 @@ public class CakeYoinkerPlugin extends Plugin {
 
 		} else if (targetObject== null){
 			inventory.dropAllExcept(CAKE, true, 1, 1);
-
 		}
 	}
-
 
 	private
 	void openBank() {
 		GameObject bankTarget = object.findNearestGameObject(10355);
 		if (bankTarget != null) {
-			targetMenu = new MenuEntry("", "", bankTarget.getId(),
-					bank.getBankMenuOpcode(bankTarget.getId()), bankTarget.getSceneMinLocation().getX(),
+			targetMenu = new MenuEntry("", "",
+					bankTarget.getId(),
+					bank.getBankMenuOpcode(bankTarget.getId()),
+					bankTarget.getSceneMinLocation().getX(),
 					bankTarget.getSceneMinLocation().getY(), false);
 			menu.setEntry(targetMenu);
-			mouse.delayMouseClick(bankTarget.getConvexHull().getBounds(), sleepDelay());
+			mouse.delayMouseClick(bankTarget.getConvexHull()
+											.getBounds(),
+											sleepDelay());
 			utils.sendGameMessage("bank clicked");
 		}
 	}
+
 
 	public
 	CakeYoinkerState getState() {
@@ -245,7 +241,6 @@ public class CakeYoinkerPlugin extends Plugin {
 		if (timeout > 0) {
 			playerUtils.handleRun(20, 30);
 			return TIMEOUT;
-
 		}
 		if (playerUtils.isMoving(beforeLoc)) {
 			playerUtils.handleRun(20, 30);
@@ -254,10 +249,17 @@ public class CakeYoinkerPlugin extends Plugin {
 		if (inventory.isEmpty() && bank.isOpen()) {
 			return WALK_TO_STALL;
 		}
-		if (!inventory.isFull()&&(player.getWorldLocation().equals(new WorldPoint(2669, 3310, 0)))) {
+		if (!inventory.isFull() && player.getWorldLocation().equals(
+								 CAKEPOINT)) {
 			return YOINK_CAKES;
 		}
-		if (inventory.isFull() && !bank.isOpen()) {
+		if (inventory.isFull() 	&& !bank.isOpen()
+								&& player.getWorldArea()
+								!= BANKAREA) {
+			return WALK_TO_BANK;
+		}
+		if (inventory.isFull() 	&& player.getWorldArea()
+								== BANKAREA){
 			return FIND_BANK;
 		}
 		if (inventory.isFull() && bank.isOpen()) {
@@ -266,8 +268,6 @@ public class CakeYoinkerPlugin extends Plugin {
 	}
 		return IDLE;
 	}
-
-
 	@Subscribe
 	private
 	void onGameTick(GameTick tick) {
@@ -303,6 +303,9 @@ public class CakeYoinkerPlugin extends Plugin {
 					playerUtils.handleRun(30, 20);
 					timeout = tickDelay();
 					break;
+				case WALK_TO_BANK:
+					walk.webWalk(new WorldPoint(2655,3286,0),2,false,
+					calc.getRandomIntBetweenRange(100,650));
 				case FIND_BANK:
 					openBank();
 					timeout = tickDelay();

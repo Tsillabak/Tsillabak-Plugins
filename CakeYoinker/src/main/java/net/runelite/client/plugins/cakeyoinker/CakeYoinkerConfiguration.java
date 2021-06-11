@@ -23,12 +23,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.Quest;
+package net.runelite.client.plugins.cakeyoinker;
 
 import net.runelite.client.config.*;
 
 
-@ConfigGroup("Quest")
+@ConfigGroup("cakeyoinker")
 public interface CakeYoinkerConfiguration extends Config
 {
 
@@ -225,11 +225,11 @@ public interface CakeYoinkerConfiguration extends Config
 
 	@ConfigTitle(
 		keyName = "CakeYoinkerTitle",
-		name = "Quest Configuration",
+		name = "cakeyoinker Configuration",
 		description = "",
 		position = 60
 	)
-	String CakeYoinker = "Quest";
+	String CakeYoinker = "cakeyoinker";
 
 	@ConfigItem(
 		keyName = "enableUI",

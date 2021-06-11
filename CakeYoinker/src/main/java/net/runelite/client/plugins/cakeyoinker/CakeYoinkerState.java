@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.Quest;
+package net.runelite.client.plugins.cakeyoinker;
 
 public enum CakeYoinkerState
 {
@@ -9,5 +9,5 @@ public enum CakeYoinkerState
 	DEPOSIT_ITEMS,
 	WALK_TO_STALL,
 	YOINK_CAKES,
-	IDLE
+    WALK_TO_BANK, IDLE
 }

@@ -1,64 +1,43 @@
 package net.runelite.client.plugins.FruitCollector;
 
 import com.google.inject.Provides;
-import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Point;
 import net.runelite.api.*;
 import net.runelite.api.coords.LocalPoint;
-import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
-import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
-import net.runelite.api.events.MenuOptionClicked;
-import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.plugins.*;
-import net.runelite.api.TileItem;
 import net.runelite.client.plugins.Plugin;
-import net.runelite.api.MenuEntry;
-import net.runelite.client.plugins.*;
-import net.runelite.client.plugins.iutils.BankUtils;
-import net.runelite.client.plugins.iutils.CalculationUtils;
-import net.runelite.client.plugins.iutils.InterfaceUtils;
-import net.runelite.client.plugins.iutils.InventoryUtils;
-import net.runelite.client.plugins.iutils.MenuUtils;
-import net.runelite.client.plugins.iutils.MouseUtils;
-import net.runelite.client.plugins.iutils.NPCUtils;
-import net.runelite.client.plugins.iutils.ObjectUtils;
-import net.runelite.client.plugins.iutils.PlayerUtils;
-import net.runelite.client.plugins.iutils.WalkUtils;
-import net.runelite.client.plugins.iutils.KeyboardUtils;
-import net.runelite.client.plugins.iutils.iUtils;
-
-
-
+import net.runelite.client.plugins.PluginDependency;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginManager;
+import net.runelite.client.plugins.iutils.*;
 import net.runelite.client.ui.overlay.OverlayManager;
 import org.pf4j.Extension;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import javax.swing.*;
 import java.awt.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 import static net.runelite.client.plugins.FruitCollector.FruitCollectorState.*;
-import static net.runelite.client.plugins.iutils.iUtils.iterating;
 
 @Extension
 @PluginDependency(iUtils.class)
 @PluginDescriptor(
 	name = "FruitCollector",
 	enabledByDefault = false,
-	description = "Mines rune essence",
-	tags = {"rune, maker, crafting, Tsillabak"}
+	description = "Collects fruit from hosidious and banks",
+	tags = {"fruit, collector, farming"}
 )
-@Slf4j
 public class FruitCollectorPlugin extends Plugin {
+	private static final Logger log = org.slf4j.LoggerFactory.getLogger(FruitCollectorPlugin.class);
 	@Inject
 	private Client client;
 
@@ -147,6 +126,9 @@ public class FruitCollectorPlugin extends Plugin {
 	public static final int FRUIT_REGION = 7224;
 	Rectangle clickBounds;
 
+	public FruitCollectorPlugin() {
+	}
+
 	@Provides
 	FruitCollectorConfiguration provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(FruitCollectorConfiguration.class);
@@ -196,7 +178,7 @@ public class FruitCollectorPlugin extends Plugin {
 	@Subscribe
 	private
 	void onConfigChanged(ConfigChanged event) {
-		if (!event.getGroup().equals("plankmaker")) {
+		if (!event.getGroup().equals("FruitCollector")) {
 			return;
 		}
 		startFruitCollector = false;
@@ -222,7 +204,11 @@ public class FruitCollectorPlugin extends Plugin {
 
 	private
 	int tickDelay() {
-		int tickLength = (int) calc.randomDelay(config.tickDelayWeightedDistribution(), config.tickDelayMin(), config.tickDelayMax(), config.tickDelayDeviation(), config.tickDelayTarget());
+		int tickLength = (int) calc.randomDelay(config.tickDelayWeightedDistribution(),
+												config.tickDelayMin(),
+												config.tickDelayMax(),
+												config.tickDelayDeviation(),
+												config.tickDelayTarget());
 		log.debug("tick delay for {} ticks", tickLength);
 		return tickLength;
 	}
@@ -241,7 +227,7 @@ public class FruitCollectorPlugin extends Plugin {
 	private void stealFruit()
 	{
 
-		targetObject=		object.findNearestGameObjectWithin(FRUITPOINT,2,28823);
+		targetObject=object.findNearestGameObjectWithin(FRUITPOINT,2,28823);
 
 		if (targetObject != null)
 		{
@@ -289,6 +275,16 @@ public class FruitCollectorPlugin extends Plugin {
 			utils.sendGameMessage("bank clicked");
 		}
 	}
+	public
+	int checkRunEnergy() {
+		try {
+			return Integer.parseInt(client.getWidget(160, 23).getText());
+		} catch (Exception ignored) {
+
+		}
+		return 0;
+	}
+
 
 	public
 	FruitCollectorState getState() {
@@ -302,13 +298,19 @@ public class FruitCollectorPlugin extends Plugin {
 			playerUtils.handleRun(20, 30);
 			return MOVING;
 		}
-		if (inventory.isEmpty() && bank.isOpen()&&client.getLocalPlayer().getWorldLocation().getRegionID() == HOSIDIOUS){
+
+		if (
+				 inventory.isEmpty()
+				&& bank.isOpen()
+				&&client.getLocalPlayer().getWorldLocation().getRegionID() == HOSIDIOUS){
 			return WALK_TO_STALL;
 		}
 		if(inventory.isEmpty()&&  object.findWallObjectWithin(DOOR_POINT, 1, ObjectID.DOOR_7452)!=null&& client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION){
 			return OPEN_DOOR;
 		}
-		if(inventory.isFull()&&  object.findWallObjectWithin(DOOR_POINT, 1, ObjectID.DOOR_7452)!=null&& client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION){
+		if(inventory.isFull()
+				&&  object.findWallObjectWithin(DOOR_POINT, 1, ObjectID.DOOR_7452)!=null
+				&& client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION){
 			return OPEN_DOOR;
 		}
 		if (!inventory.isFull() &&client.getLocalPlayer().getWorldLocation().getRegionID() == FRUIT_REGION) {
@@ -348,11 +350,11 @@ public class FruitCollectorPlugin extends Plugin {
 					timeout--;
 					break;
 				case WALK_TO_STALL:
-					walk.sceneWalk(new WorldPoint(1798, 3598, 0), 0, 0);
+					walk.sceneWalk(new WorldPoint(1798, 3598, 0), 3, 0);
 					timeout = tickDelay();
 					break;
 				case WALK_TO_BANK:
-					walk.sceneWalk(new WorldPoint(1749, 3598, 0), 0, 0);
+					walk.sceneWalk(new WorldPoint(1748, 3598, 0), 0, 0);
 					timeout = tickDelay();
 					break;
 				case STEAL_FRUIT:

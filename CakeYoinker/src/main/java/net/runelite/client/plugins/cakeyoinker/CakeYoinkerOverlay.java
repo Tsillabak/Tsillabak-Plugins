@@ -1,4 +1,4 @@
-package net.runelite.client.plugins.Quest;
+package net.runelite.client.plugins.cakeyoinker;
 
 import com.openosrs.client.ui.overlay.components.table.TableAlignment;
 import com.openosrs.client.ui.overlay.components.table.TableComponent;
@@ -31,7 +31,7 @@ class CakeYoinkerOverlay extends OverlayPanel
 	private String infoStatus = "Starting...";
 
 	@Inject
-	private CakeYoinkerOverlay(final Client client, final CakeYoinkerPlugin plugin, final CakeYoinkerConfiguration config)
+	public CakeYoinkerOverlay(final Client client, final CakeYoinkerPlugin plugin, final CakeYoinkerConfiguration config)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.BOTTOM_LEFT);
@@ -45,7 +45,7 @@ class CakeYoinkerOverlay extends OverlayPanel
 	{
 		if (plugin.botTimer == null || !plugin.startCakeYoinker || !config.enableUI())
 		{
-			log.debug("Overlay conditions not met, not starting overlay");
+
 			return null;
 		}
 		TableComponent tableComponent = new TableComponent();

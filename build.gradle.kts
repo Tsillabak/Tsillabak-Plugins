@@ -2,7 +2,6 @@
 
 import ProjectVersions.openosrsVersion
 
-
 buildscript {
     repositories {
         gradlePluginPortal()
@@ -12,7 +11,6 @@ buildscript {
 plugins {
     java //this enables annotationProcessor and implementation in dependencies
     checkstyle
-    kotlin("jvm") version "1.5.0-M1"
 }
 
 project.extra["GithubUrl"] = "https://github.com/Tsillabak/Tsillabak-Plugins"
@@ -112,7 +110,7 @@ subprojects {
             doLast {
                 copy {
                     from("./build/libs/")
-                    into(System.getProperty("user.home") + "/.openosrs/plugins")
+                    into( "C:/Users/Darwin/.openosrs/plugins")
                 }
             }
         }

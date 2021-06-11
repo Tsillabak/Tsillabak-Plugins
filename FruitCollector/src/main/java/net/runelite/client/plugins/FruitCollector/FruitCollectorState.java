@@ -11,5 +11,5 @@ public enum FruitCollectorState
 	STEAL_FRUIT,
 	OPEN_DOOR,
 	WALK_TO_BANK,
-	IDLE
+	 IDLE
 }
