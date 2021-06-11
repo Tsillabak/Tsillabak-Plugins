@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "2.0.7"
+version = "2.0.8"
 
 project.extra["PluginName"] = "EssenceMiner"
 project.extra["PluginDescription"] = "Automatically Mines  Essence"
